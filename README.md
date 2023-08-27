@@ -1,10 +1,10 @@
-# Upravitelj zadacima (Task Manager)
+# Upravitelj zadataka (Task Manager)
 
-U ovoj aplikaciji zadaci se prikazuju u listi, dok se u zaglavlju liste klikom na plus ikonu može dodati zadatak. Kada se klikne na karticu zadatka otvara se njegov detaljan prikaz gdje je zadatak moguće obrisati ili izmijeniti. Aplikacija je napravljena koristeći Expo CLI.
+U ovoj aplikaciji zadaci se prikazuju u listi, a klikom na ikonu plus u zaglavlju liste moguće je dodati novi zadatak. Kada se klikne na karticu zadatka, otvara se detaljan prikaz gdje je moguće zadatak obrisati ili izmijeniti. Aplikacija je izrađena koristeći Expo CLI.
 
-## Koraci(steps)
+## Koraci (steps)
 
-1.Clone this repository
-2.Enter the project directory and run npm install
-3.After previous step is finished run npm start
-4.Click letter a to open it on Android emulator()
+1. Klonirajte ovaj repozitorij.
+2. Uđite u direktorij projekta i pokrenite naredbu `npm install`.
+3. Nakon što prethodni korak završi, pokrenite naredbu `npm start`.
+4. Kako biste otvorili aplikaciju na Android emulatoru, pritisnite slovo "a".

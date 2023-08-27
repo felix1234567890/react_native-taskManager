@@ -1,10 +1,11 @@
-import testData from '../testData';
-import { ADD_TASK, EDIT_TASK, DELETE_TASK } from './taskActions';
-import { Task } from '../models/Task';
-import uuid from 'uuid';
+import testData from "../testData";
+import { ADD_TASK, EDIT_TASK, DELETE_TASK } from "./taskActions";
+import { Task } from "../models/Task";
+import "react-native-get-random-values";
+import { v4 as uuid } from "uuid";
 
 const initialState = {
-  tasks: testData
+  tasks: testData,
 };
 const taskReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -18,19 +19,14 @@ const taskReducer = (state = initialState, action) => {
         action.payload.completed
       );
       return {
-        tasks: state.tasks.concat(task)
+        tasks: state.tasks.concat(task),
       };
     case EDIT_TASK:
       const taskIndex = state.tasks.findIndex(
-        task => task.id === action.payload.id
+        (task) => task.id === action.payload.id
       );
-      const {
-        title,
-        description,
-        difficulty,
-        dueDate,
-        completed
-      } = action.payload.taskData;
+      const { title, description, difficulty, dueDate, completed } =
+        action.payload.taskData;
       const editedTask = new Task(
         action.payload.id,
         title,
@@ -42,11 +38,11 @@ const taskReducer = (state = initialState, action) => {
       const newTaskArray = [...state.tasks];
       newTaskArray[taskIndex] = editedTask;
       return {
-        tasks: newTaskArray
+        tasks: newTaskArray,
       };
     case DELETE_TASK:
       return {
-        tasks: state.tasks.filter(task => task.id !== action.payload)
+        tasks: state.tasks.filter((task) => task.id !== action.payload),
       };
   }
   return state;

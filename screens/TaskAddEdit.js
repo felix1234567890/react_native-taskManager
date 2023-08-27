@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   ScrollView,
@@ -8,17 +8,27 @@ import {
   Button,
   KeyboardAvoidingView
 } from 'react-native';
-import { DatePicker, Picker, Item, CheckBox, Textarea } from 'native-base';
+import { Checkbox, TextArea, Select } from 'native-base';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import Spacer from '../components/Spacer';
 import { COLORS } from '../constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { addTask, editTask } from '../store/taskActions';
 
-const TaskAddEdit = ({ navigation }) => {
-  const taskId = navigation.getParam('taskId');
+const TaskAddEdit = ({ navigation, route }) => {
+  const taskId = route.params?.taskId
   const editingTask = useSelector(state =>
     state.tasks.tasks.find(task => task.id === taskId)
   );
+
+  useEffect(()=>{
+    navigation.setOptions({
+      headerTitle: taskId
+      ? 'Izmijeni zadatak'
+      : 'Dodaj novi zadatak'
+    })
+  }, [navigation])
+  
   const [formData, setFormData] = useState({
     title: editingTask ? editingTask.title : '',
     description: editingTask ? editingTask.description : '',
@@ -26,6 +36,7 @@ const TaskAddEdit = ({ navigation }) => {
     difficulty: editingTask ? editingTask.difficulty : '1',
     completed: editingTask ? editingTask.completed : false
   });
+  
   const [titleValid, setTitleValid] = useState(false);
   const [descriptionValid, setDescriptionValid] = useState(false);
   const [descriptionMessage, setDescriptionMessage] = useState(
@@ -73,7 +84,7 @@ const TaskAddEdit = ({ navigation }) => {
           </View>
           <View style={styles.formGroup}>
             <Text style={styles.label}>Opis Zadatka</Text>
-            <Textarea
+            <TextArea
               rowSpan={4}
               bordered
               value={formData.description}
@@ -103,10 +114,10 @@ const TaskAddEdit = ({ navigation }) => {
 
           <View style={styles.formGroup}>
             <Text style={styles.label}>Rok izvršenja:</Text>
-            <DatePicker
-              defaultDate={formData.dueDate}
+            <DateTimePicker
+              value={formData.dueDate}
               minimumDate={formData.dueDate}
-              maximumDate={new Date(2022, 12, 31)}
+              maximumDate={new Date(2025, 12, 31)}
               locale={'en'}
               modalTransparent={false}
               animationType={'fade'}
@@ -124,8 +135,8 @@ const TaskAddEdit = ({ navigation }) => {
           </View>
           <View style={styles.formGroup}>
             <Text style={styles.label}>Težina</Text>
-            <Item picker style={{ width: 100 }}>
-              <Picker
+              <Select
+              width={150}
                 mode="dropdown"
                 placeholder="Izaberi težinu"
                 placeholderStyle={{ color: '#bfc6ea' }}
@@ -134,18 +145,17 @@ const TaskAddEdit = ({ navigation }) => {
                   setFormData({ ...formData, difficulty })
                 }
               >
-                <Picker.Item label="1" value="1" />
-                <Picker.Item label="2" value="2" />
-                <Picker.Item label="3" value="3" />
-                <Picker.Item label="4" value="4" />
-                <Picker.Item label="5" value="5" />
-              </Picker>
-            </Item>
+                <Select.Item label="1" value="1" />
+                <Select.Item label="2" value="2" />
+                <Select.Item label="3" value="3" />
+                <Select.Item label="4" value="4" />
+                <Select.Item label="5" value="5" />
+              </Select>
           </View>
           <Spacer />
-          {navigation.getParam('taskId') && (
+          {taskId && (
             <View style={styles.checkbox}>
-              <CheckBox
+              <Checkbox
                 checked={formData.completed}
                 color="green"
                 onPress={() =>
@@ -164,7 +174,7 @@ const TaskAddEdit = ({ navigation }) => {
           <Button
             disabled={!formValid}
             color={COLORS.primaryColor}
-            title={navigation.getParam('taskId') ? 'Izmijeni' : 'Dodaj'}
+            title={taskId ? 'Izmijeni' : 'Dodaj'}
             onPress={submitHandler}
           />
         </View>
@@ -192,11 +202,5 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   }
 });
-TaskAddEdit.navigationOptions = navigationData => {
-  return {
-    headerTitle: navigationData.navigation.getParam('taskId')
-      ? 'Izmijeni zadatak'
-      : 'Dodaj novi zadatak'
-  };
-};
+
 export default TaskAddEdit;
