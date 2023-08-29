@@ -1,19 +1,42 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import { Icon } from "react-native-elements";
 import { useSelector } from "react-redux";
 import SingleTask from "../components/SingleTask";
+import { Select, CheckIcon } from "native-base";
+import {useTranslation} from 'react-i18next'
 
 const TaskList = ({ navigation }) => {
+  const {t, i18n} = useTranslation();
   const tasks = useSelector((state) => state.tasks.tasks);
+  const [lang, setLang] = useState('en');
+  useEffect(() => {
+    i18n.changeLanguage(lang);
+  }, [lang]);
   useEffect(() => {
     navigation.setOptions({
-      headerRight: ()=>(
-        <Icon
-        name="plus"
-        type="font-awesome"
-          onPress={() => navigation.navigate("TaskAddEdit")}
-        />
+      headerRight: () => (
+        <>
+          <Select
+            minWidth="100"
+            accessibilityLabel={t('language')}
+            placeholder={t('language')}
+            _selectedItem={{
+              endIcon: <CheckIcon size="5" />,
+            }}
+            mx={2}
+            onValueChange={(itemValue) => setLang(itemValue)}
+            defaultValue="en"
+          >
+            <Select.Item label={t('english')} value="en" />
+            <Select.Item label={t('croatian')} value="hr" />
+          </Select>
+          <Icon
+            name="plus"
+            type="font-awesome"
+            onPress={() => navigation.navigate("TaskAddEdit")}
+          />
+        </>
       ),
     });
   }, [navigation]);

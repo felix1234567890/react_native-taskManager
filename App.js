@@ -8,9 +8,13 @@ import TaskList from "./screens/TaskList";
 import TaskDetail from "./screens/TaskDetail";
 import TaskAddEdit from "./screens/TaskAddEdit";
 import { NativeBaseProvider } from "native-base";
+import { useTranslation } from "react-i18next";
+import './locales/index'
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const { t } = useTranslation();
   return (
     <NativeBaseProvider>
       <Provider store={store}>
@@ -20,13 +24,15 @@ export default function App() {
               name="TaskList"
               component={TaskList}
               options={() => ({
-                title: "Lista zadataka",
+                title: t('taskList'),
                 headerRight: () => (
-                  <Icon
-                    name="plus"
-                    type="font-awesome"
-                    iconStyle={{ marginRight: 10, fontSize: 30 }}
-                  />
+                  <>
+                    <Icon
+                      name="plus"
+                      type="font-awesome"
+                      iconStyle={{ marginRight: 10, fontSize: 30 }}
+                    />
+                  </>
                 ),
               })}
             />
