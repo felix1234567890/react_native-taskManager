@@ -39,10 +39,9 @@ const TaskAddEdit = ({ navigation, route }) => {
   
   const [titleValid, setTitleValid] = useState(false);
   const [descriptionValid, setDescriptionValid] = useState(false);
-  const [descriptionMessage, setDescriptionMessage] = useState(
-    'Opis mora postojati'
-  );
-  const formValid = titleValid && descriptionValid;
+  const [errors, setErrors] = useState()
+
+  const formValid = titleValid && descriptionValid && !!errors;
   const dispatch = useDispatch();
   const submitHandler = () => {
     if (editingTask) {
@@ -69,6 +68,10 @@ const TaskAddEdit = ({ navigation, route }) => {
               onChangeText={title => {
                 if (title.trim().length === 0) {
                   setTitleValid(false);
+                  setErrors({...errors, title:'Naziv mora postojati'})
+                } else if(title.trim().length < 3){
+                  setTitleValid(false);
+                  setErrors({...errors, title:'Naziv mora biti duzi'})
                 } else setTitleValid(true);
                 setFormData({
                   ...formData,
@@ -78,7 +81,7 @@ const TaskAddEdit = ({ navigation, route }) => {
             />
             {!titleValid && (
               <Text style={{ color: 'red', fontSize: 14 }}>
-                Naziv mora postojati
+                {errors?.title}
               </Text>
             )}
           </View>
@@ -91,12 +94,12 @@ const TaskAddEdit = ({ navigation, route }) => {
               onChangeText={description => {
                 if (description.trim().length === 0) {
                   setDescriptionValid(false);
+                  setErrors({...errors, description:'Opis mora postojati'})
                 } else if (description.trim().length < 10) {
                   setDescriptionValid(false);
-                  setDescriptionMessage('Opis mora biti duži od 10 znakova');
+                  setErrors({...errors, description:'Opis mora biti duži od 10 znakova'});
                 } else {
                   setDescriptionValid(true);
-                  setDescriptionMessage('');
                 }
                 setFormData({
                   ...formData,
@@ -107,7 +110,7 @@ const TaskAddEdit = ({ navigation, route }) => {
             />
             {!descriptionValid && (
               <Text style={{ color: 'red', fontSize: 14 }}>
-                {descriptionMessage}
+                {errors?.description}
               </Text>
             )}
           </View>
@@ -187,10 +190,11 @@ const styles = StyleSheet.create({
     margin: 20
   },
   formGroup: {
-    paddingVertical: 5
+    paddingVertical: 5,
   },
   label: {
-    fontSize: 18
+    fontSize: 18,
+    padding:3
   },
   field: {
     borderBottomWidth: 1,

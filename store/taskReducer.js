@@ -1,12 +1,19 @@
 import testData from "../testData";
 import { ADD_TASK, EDIT_TASK, DELETE_TASK } from "./taskActions";
 import { Task } from "../models/Task";
-import "react-native-get-random-values";
 import { v4 as uuid } from "uuid";
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   tasks: testData,
 };
+
+const taskSlice = createSlice({
+  name:'task',
+  initialState,
+  reducers: {
+  }
+})
 const taskReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TASK:
@@ -47,4 +54,4 @@ const taskReducer = (state = initialState, action) => {
   }
   return state;
 };
-export default taskReducer;
+export default taskSlice.reducer;

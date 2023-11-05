@@ -8,7 +8,7 @@ export default [
     "Testni prvi zadatak",
     "Opis je u fukciji testiranja rada aplikacije",
     3,
-    new Date("September 13, 2019 13:44:00"),
+    "September 13, 2019 13:44:00",
     true
   ),
   new Task(
@@ -16,7 +16,7 @@ export default [
     "Testni drugi zadatak",
     "Opis je drugi u fukciji testiranja rada aplikacije",
     4,
-    new Date("September 13, 2019 13:44:00"),
+   "September 13, 2019 13:44:00",
     false
   ),
 ];

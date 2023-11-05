@@ -1,8 +1,4 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import thunk from 'redux-thunk';
 import taskReducer from './taskReducer';
+import { configureStore } from '@reduxjs/toolkit';
 
-const rootReducer = combineReducers({
-  tasks: taskReducer
-});
-export const store = createStore(rootReducer, applyMiddleware(thunk));
+export const store = configureStore({reducer:{tasks:taskReducer}});

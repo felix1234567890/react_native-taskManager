@@ -10,9 +10,11 @@ import {
 import { Rating, Icon } from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
 import Spacer from "../components/Spacer";
-import moment from "moment";
 import { COLORS } from "../constants";
 import { deleteTask } from "../store/taskActions";
+import dayjs from "dayjs";
+const relativeTime = require('dayjs/plugin/relativeTime')
+dayjs.extend(relativeTime)
 
 const TaskDetail = ({ navigation, route }) => {
   const taskId = route.params.taskId;
@@ -32,13 +34,14 @@ const TaskDetail = ({ navigation, route }) => {
       ),
     });
   }, [navigation]);
-
+console.log(dayjs(clickedTask.dueDate).fromNow())
   return clickedTask ? (
     <ScrollView>
       <Text style={styles.title}>{clickedTask.title}</Text>
       <Text style={{ color: "#ccc", fontSize: 18, textAlign: "center" }}>
+       
         Za
-        {moment(clickedTask.dueDate).fromNow(true).replace("days", "dana")}{" "}
+        {dayjs(clickedTask.dueDate).fromNow(true)}
         završava
       </Text>
 

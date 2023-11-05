@@ -35,6 +35,7 @@ const TaskList = ({ navigation }) => {
             name="plus"
             type="font-awesome"
             onPress={() => navigation.navigate("TaskAddEdit")}
+            style={{paddingRight:10}}
           />
         </>
       ),
